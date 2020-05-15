@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using TaskManagement.model;
 using TaskManagement.DB;
+using System.Dynamic;
 
 namespace TaskManagement
 {
@@ -11,70 +12,75 @@ namespace TaskManagement
     {
         static void Main(string[] args)
         {
-           
 
-            User newuser = new User() {Username="USER1",UserID=1,Password="user1*" };
+            //comment
+            User newuser = new User() { Username = "USER1", UserID = 1, Password = "user1*" };
             UserDB.AddUser(newuser);
             User newuser1 = new User() { Username = "USER2", UserID = 2, Password = "user2*" };
             UserDB.AddUser(newuser1);
             User newuser2 = new User() { Username = "USER3", UserID = 3, Password = "user3*" };
             UserDB.AddUser(newuser2);
 
-            User user = new User();
-            while(true)
-            {
-                Console.WriteLine("Enter your user ID");
-                int userid = int.Parse(Console.ReadLine());
-                Console.WriteLine("Enter your Password");
-                string password = Console.ReadLine();
 
-                user = UserDB.ValidLogin(userid, password);
-                if(user!=null)
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Try again!!");
-                }
-            }
-            int Userid = user.UserID;
-            char choice = 'y';
-            
-            while (choice.Equals('y'))
+            //come here again after logout
+            bool login = true;
+            do
             {
-                Task task = new Task();
+                User user = new User();
+                while (true)
+                {
+                    Console.WriteLine("Enter your user ID");
+                    int userid = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Enter your Password");
+                    string password = Console.ReadLine();
 
-                Console.WriteLine("enter task name");
-                task.TaskName = Console.ReadLine();
-                
-                DateTime now = DateTime.Now;
-                task.TaskId =now;
-               
-                int id=0;
-                bool validid = false;
-                while (validid == false)
-                {
-                    Console.WriteLine("Enter the user ID ");
-                    id = int.Parse(Console.ReadLine());
-                    validid = UserDB.IsValidID(id);
+                    user = UserDB.ValidLogin(userid, password);
+                    if (user != null)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Try again!!");
+                    }
                 }
-                task.AssignedToUserID = id;
-                task.AssignedByUserID = Userid;
-                TaskDB.AddTask(task);
-                Console.WriteLine("Do you want to continue adding tasks?(y/n)");
-                choice = char.Parse(Console.ReadLine());
-            }
-            //get task assigned to user
-            Console.WriteLine("Enter the user id whose tasks assigned are to be printed");
-            int AssignedToUserId = int.Parse(Console.ReadLine());
-            List<Task> tasklist = TaskDB.GetTaskAssignedTo(AssignedToUserId);
-            foreach(Task task in tasklist)
-            {
-                Console.WriteLine("Task Name:"+task.TaskName);
-                Console.WriteLine("Task ID:"+task.TaskId);
-            }
-           
-        }
+
+                int Userid = user.UserID;
+                int todo;
+                do
+                {
+                    Console.WriteLine("Enter yor option 1:AddTask" +
+                     "  2:List tasks assigned to me " +
+                     " 3:List tasks assigned to a user" +
+                     "4:Logout and Login as new user" +
+                     "5: Exit the application");
+                    todo = int.Parse(Console.ReadLine());
+                    /*creating a user menu*/
+
+                    switch (todo)
+                    {
+
+                        case 1:
+                            UserFunctions.AddTaskMethod(Userid);
+                            break;
+                        case 2:
+                            UserFunctions.MyCurrentTaskMethod(Userid);
+                            break;
+                        case 3:
+                            UserFunctions.GetUserTaskMethod();
+                            break;
+                        case 4:
+                            //Logout();
+                            login = false;
+                            break;
+                        case 5:
+                            // Exit();
+                            Environment.Exit(0);
+                            break;
+                    }
+                } while (todo == 1 || todo == 2 || todo == 3);
+            } while (login == false);
+        }     
     }
-}
+ }
+

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using TaskManagement.model;
+using System.Runtime.CompilerServices;
+using System.ComponentModel.Design;
 
 namespace TaskManagement.DB
 
@@ -16,11 +18,13 @@ namespace TaskManagement.DB
         }
         public static List<Task> GetTaskAssignedTo(int userid)
         {
-           var tasksassigned = from t in tasks
-                                where t.AssignedToUserID==userid
-                                select t;
-            return tasksassigned.ToList();
-
+            var tasksassigned = tasks.Where(t => t.AssignedToUserID==userid).ToList();
+            return tasksassigned;
+        }
+        public static List<Task> GetMyCurrentTasks(int myid)
+        {
+            var myCurrentTasks = tasks.Where(t => t.AssignedToUserID == myid).ToList();
+            return myCurrentTasks;
         }
     }
 }
