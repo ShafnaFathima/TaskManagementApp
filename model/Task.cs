@@ -9,22 +9,16 @@ namespace TaskManagement.model
         public string TaskName { get; set; }
         public int AssignedToUserID { get; set; }
         public int AssignedByUserID { get; set; }
-         public long TaskId
+        
+        private long t = DateTime.Now.Ticks;
+
+        public long TaskId
         {
             get
             {
-                return this.TaskId;
-            }
-            set
-            {
-                long t = DateTime.Now.Ticks;
-                TaskId = t;
-
+                return t;
             }
             
         }
-        
-        
-
     }
 }
