@@ -9,23 +9,28 @@ namespace TaskManagement.DB
 {
      public class UserDB
     {
-        private static List<User> userlist = new List<User>();
+        private static List<User> Userlist = new List<User>();
 
         public static void AddUser(User user)
         {
-            userlist.Add(user);
+            Userlist.Add(user);
         }
        public static User ValidLogin(int userid,string password)
         {
-         return userlist.FirstOrDefault(user => user.UserID == userid && password.Equals(user.Password));
+         return Userlist.FirstOrDefault(user => user.UserID == userid && password.Equals(user.Password));
         }
 
         public static bool IsValidID(int id)
         {
-            var isvalid = (from user in userlist
+            var isvalid = (from user in Userlist
                            where user.UserID == id
                            select user).Any();
             return isvalid;
+        }
+        public static string GetUserName(int id)
+        {
+            var user = Userlist.First(user => user.UserID == id);
+            return user.Username;
         }
      }
     

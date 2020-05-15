@@ -13,7 +13,13 @@ namespace TaskManagement.model
         {
             get
             {
-                return DateTime.Now.Ticks;
+                return this.TaskId;
+            }
+            set
+            {
+                long t = DateTime.Now.Ticks;
+                TaskId = t;
+
             }
             
         }

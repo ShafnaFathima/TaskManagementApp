@@ -63,18 +63,20 @@ namespace TaskManagement
 
        public static void MyCurrentTaskMethod(int Userid)
         {
-            List<model.Task> myTasklist = TaskDB.GetMyCurrentTasks(Userid);
-            if (myTasklist.Count == 0)
+            List<model.Task> MyTasklist = TaskDB.GetMyCurrentTasks(Userid);
+            if (MyTasklist.Count == 0)
             {
                 Console.WriteLine("No tasks have been assigned");
             }
             else
             {
-                foreach (model.Task task in myTasklist)
+                foreach (model.Task task in MyTasklist)
                 {
                     Console.WriteLine("Task Name:" + task.TaskName);
                     Console.WriteLine("Task ID:" + task.TaskId);
-                    Console.WriteLine("Assigned by:" + task.AssignedByUserID);
+                    int assignedByUserID = task.AssignedByUserID;
+                    string assignedByUserName = UserDB.GetUserName(assignedByUserID);
+                    Console.WriteLine("Assigned by:" + assignedByUserName);
                 }
             }
         }

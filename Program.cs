@@ -49,10 +49,11 @@ namespace TaskManagement
                 int todo;
                 do
                 {
-                    Console.WriteLine("Enter yor option 1:AddTask" +
-                     "  2:List tasks assigned to me " +
-                     " 3:List tasks assigned to a user" +
-                     "4:Logout and Login as new user" +
+                    Console.WriteLine("Enter yor option \n" +
+                        "1:AddTask \n" +
+                     "2:List tasks assigned to me \n " +
+                     "3:List tasks assigned to a user \n" +
+                     "4:Logout and Login as new user \n" +
                      "5: Exit the application");
                     todo = int.Parse(Console.ReadLine());
                     /*creating a user menu*/
@@ -78,7 +79,7 @@ namespace TaskManagement
                             Environment.Exit(0);
                             break;
                     }
-                } while (todo == 1 || todo == 2 || todo == 3);
+                } while (todo >= 1 && todo <= 3); 
             } while (login == false);
         }     
     }
