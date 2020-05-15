@@ -23,7 +23,7 @@ namespace TaskManagement
                 bool validid = false;
                 while (validid == false)
                 {
-                    Console.WriteLine("Enter the user ID ");
+                    Console.WriteLine("Enter a valid user ID ");
                     id = int.Parse(Console.ReadLine());
                     validid = UserDB.IsValidID(id);
                 }
@@ -37,8 +37,15 @@ namespace TaskManagement
 
        public static void GetUserTaskMethod()
         {
-            Console.WriteLine("Enter the user id whose tasks assigned are to be printed");
-            int AssignedToUserId = int.Parse(Console.ReadLine());
+            bool validid = false;
+            int AssignedToUserId = 0;
+            while (validid == false)
+            {
+                Console.WriteLine("Enter a valid user id whose tasks assigned are to be printed");
+                AssignedToUserId = int.Parse(Console.ReadLine());
+                validid = UserDB.IsValidID(AssignedToUserId);
+            }
+            
             List<model.Task> tasklist = TaskDB.GetTaskAssignedTo(AssignedToUserId);
             if (tasklist.Count == 0)
             {
