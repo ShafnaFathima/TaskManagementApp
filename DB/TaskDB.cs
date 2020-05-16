@@ -11,19 +11,22 @@ namespace TaskManagement.DB
 {
     public class TaskDB
     {
-        private static List<Task> Tasks = new List<Task>();
+        private static List<Task> _tasks = new List<Task>();
+        
         public static void AddTask(Task task)
         {
-            Tasks.Add(task);
+            _tasks.Add(task);
         }
+
         public static List<Task> GetTaskAssignedTo(int userid)
         {
-            var tasksassigned = Tasks.Where(t => t.AssignedToUserID == userid).ToList();
+            var tasksassigned = _tasks.Where(t => t.AssignedToUserID == userid).ToList();
             return tasksassigned;
         }
+
         public static List<Task> GetMyCurrentTasks(int myid)
         {
-            var myCurrentTasks = Tasks.Where(t => t.AssignedToUserID == myid).ToList();
+            var myCurrentTasks = _tasks.Where(t => t.AssignedToUserID == myid).ToList();
             return myCurrentTasks;
         }
     }

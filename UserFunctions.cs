@@ -7,7 +7,7 @@ using TaskManagement.DB;
 
 namespace TaskManagement
 {
-   public class UserFunctions
+    public class UserFunctions
     {
         public static void AddTaskMethod(int Userid)
         {
@@ -35,51 +35,100 @@ namespace TaskManagement
             }
         }
 
-       public static void GetUserTaskMethod()
+        public static bool GetUserTaskMethod()
         {
             bool validid = false;
-            int AssignedToUserId = 0;
+            int assignedToUserId = 0;
             while (validid == false)
             {
                 Console.WriteLine("Enter a valid user id whose tasks assigned are to be printed");
-                AssignedToUserId = int.Parse(Console.ReadLine());
-                validid = UserDB.IsValidID(AssignedToUserId);
+                assignedToUserId = int.Parse(Console.ReadLine());
+                validid = UserDB.IsValidID(assignedToUserId);
             }
-            
-            List<model.Task> tasklist = TaskDB.GetTaskAssignedTo(AssignedToUserId);
+
+            List<model.Task> tasklist = TaskDB.GetTaskAssignedTo(assignedToUserId);
+
             if (tasklist.Count == 0)
             {
-                Console.WriteLine("No tasks have been assigned to this user");
+                Console.WriteLine("\nNo tasks have been assigned to this user");
+                return false;
             }
             else
             {
                 foreach (model.Task task in tasklist)
                 {
-                    Console.WriteLine("Task Name:" + task.TaskName);
+                    Console.WriteLine("\nTask Name:" + task.TaskName);
                     Console.WriteLine("Task ID:" + task.TaskId);
+                    List<Comment> comments = new List<Comment>();
+                    comments = Comment.GetComments(task.TaskId);
+                    if (comments.Count == 0)
+                    {
+                        Console.WriteLine("\nThere are no comments for this task!");
+                    }
+                    else
+                    {
+                        foreach (Comment comment in comments)
+                        {
+                            string authorName = UserDB.GetUserName(comment.AuthorId);
+                            Console.WriteLine("\nComment:" +
+                                    "\nCommentID: " + comment.CommentId +
+                                    "\nCommented By :" + authorName +
+                                    "\n" + comment.Content);
+                        }
+                    }
                 }
             }
+            return true;
         }
 
-       public static void MyCurrentTaskMethod(int Userid)
+        public static bool MyCurrentTaskMethod(int Userid)
         {
             List<model.Task> MyTasklist = TaskDB.GetMyCurrentTasks(Userid);
             if (MyTasklist.Count == 0)
             {
-                Console.WriteLine("No tasks have been assigned");
+                Console.WriteLine("\nNo tasks have been assigned");
+                return false;
             }
             else
             {
                 foreach (model.Task task in MyTasklist)
                 {
-                    Console.WriteLine("Task Name:" + task.TaskName);
+                    Console.WriteLine("\nTask Name:" + task.TaskName);
                     Console.WriteLine("Task ID:" + task.TaskId);
                     int assignedByUserID = task.AssignedByUserID;
                     string assignedByUserName = UserDB.GetUserName(assignedByUserID);
                     Console.WriteLine("Assigned by:" + assignedByUserName);
+                    List<Comment> comments = new List<Comment>();
+                    comments = Comment.GetComments(task.TaskId);
+                    if (comments.Count == 0)
+                    {
+                        Console.WriteLine("\nThere are no comments for this task!");
+                    }
+                    else
+                    {
+                        foreach (Comment comment in comments)
+                        {
+                            string authorName = UserDB.GetUserName(comment.AuthorId);
+                            Console.WriteLine("Comment:" +
+                                              "\nCommentID: " + comment.CommentId +
+                                              "\nCommented By :" + authorName +
+                                              "\n" + comment.Content);
+                        }
+                    }
                 }
-            }
+            }return true;
         }
 
+        public static void AddCommentMethod(int Userid)
+        {
+            Comment comment = new Comment();
+            Console.WriteLine("Which task do you want to comment?");
+            comment.CommentToTaskId = long.Parse(Console.ReadLine());
+            Console.WriteLine("Enter your comment");
+            comment.Content = Console.ReadLine();
+            comment.AuthorId = Userid;
+            Console.WriteLine("Commented Successfully!");
+            Comment.AddComment(comment);
+        }
     }
 }

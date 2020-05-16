@@ -18,16 +18,16 @@ namespace TaskManagement
             UserDB.AddUser(newuser1);
             User newuser2 = new User() { Username = "USER3", UserID = 3, Password = "user3*" };
             UserDB.AddUser(newuser2);
-           //come here again after logout
+            //come here again after logout
             bool login = true;
             do
             {
                 User user = new User();
                 while (true)
                 {
-                    Console.WriteLine("Enter your user ID");
+                    Console.WriteLine("\nEnter your user ID");
                     int userid = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Enter your Password");
+                    Console.WriteLine("\nEnter your Password");
                     string password = Console.ReadLine();
 
                     user = UserDB.ValidLogin(userid, password);
@@ -37,10 +37,11 @@ namespace TaskManagement
                     }
                     else
                     {
-                        Console.WriteLine("Try again!!");
+                        Console.WriteLine("\nTry again!!");
                     }
                 }
-                 int Userid = user.UserID;
+
+                int Userid = user.UserID;
                 int todo;
                 do
                 {
@@ -52,17 +53,39 @@ namespace TaskManagement
                      "\n5:Exit the application");
                     todo = int.Parse(Console.ReadLine());
                     /*creating a user menu*/
-                   switch (todo)
+                    switch (todo)
                     {
 
                         case 1:
                             UserFunctions.AddTaskMethod(Userid);
                             break;
                         case 2:
-                            UserFunctions.MyCurrentTaskMethod(Userid);
+                            bool isTaskAssigned = UserFunctions.MyCurrentTaskMethod(Userid);
+                            char choice = 'y';
+                            while (isTaskAssigned == true && choice == 'y')
+                            {
+                                Console.WriteLine("\nDo you want to add a comment?(y/n)");
+                                choice = char.Parse(Console.ReadLine());
+                                if (choice == 'y')
+                                {
+                                    UserFunctions.AddCommentMethod(Userid);
+
+                                }
+                            }
                             break;
                         case 3:
-                            UserFunctions.GetUserTaskMethod();
+                            bool isTaskassigned = UserFunctions.GetUserTaskMethod();
+                            char userchoice = 'y';
+                            while (isTaskassigned == true && userchoice == 'y')
+                            {
+                                Console.WriteLine("\nDo you want to add a comment?(y/n)");
+                                userchoice = char.Parse(Console.ReadLine());
+                                if (userchoice == 'y')
+                                {
+                                    UserFunctions.AddCommentMethod(Userid);
+
+                                }
+                            }
                             break;
                         case 4:
                             login = false;
@@ -71,9 +94,9 @@ namespace TaskManagement
                             Environment.Exit(0);
                             break;
                     }
-                } while (todo >= 1 && todo <= 3); 
+                } while (todo >= 1 && todo <= 3);
             } while (login == false);
-        }     
+        }
     }
- }
+}
 
