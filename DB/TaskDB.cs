@@ -12,7 +12,7 @@ namespace TaskManagement.DB
     public class TaskDB
     {
         private static List<Task> _tasks = new List<Task>();
-        
+
         public static void AddTask(Task task)
         {
             _tasks.Add(task);

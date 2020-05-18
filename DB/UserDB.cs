@@ -15,6 +15,7 @@ namespace TaskManagement.DB
         {
             _userlist.Add(user);
         }
+       
         public static User ValidLogin(int userid, string password)
         {
             return _userlist.FirstOrDefault(user => user.UserID == userid && password.Equals(user.Password));
@@ -27,7 +28,7 @@ namespace TaskManagement.DB
                            select user).Any();
             return isvalid;
         }
-
+       
         public static string GetUserName(int id)
         {
             var user = _userlist.First(user => user.UserID == id);

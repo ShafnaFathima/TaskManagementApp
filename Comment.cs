@@ -9,11 +9,12 @@ namespace TaskManagement
 {
     public class Comment
     {
-        private static List<Comment> Comments = new List<Comment>();
+        private static List<Comment> _comments = new List<Comment>();
         public string Content { get; set; }
         public int AuthorId { get; set; }
         public long CommentToTaskId { get; set; }
         private long _commentId = DateTime.UtcNow.Ticks;
+
         public long CommentId
         {
             get
@@ -22,14 +23,14 @@ namespace TaskManagement
 
             }
         }
-         public static void AddComment(Comment comment)
+        public static void AddComment(Comment comment)
         {
-            Comments.Add(comment);
+            _comments.Add(comment);
         }
 
         public static List<Comment> GetComments(long taskid)
         {
-            var comments = Comments.Where(comment => comment.CommentToTaskId == taskid).ToList();
+            var comments = _comments.Where(comment => comment.CommentToTaskId == taskid).ToList();
             return comments;
         }
     }

@@ -69,12 +69,11 @@ namespace TaskManagement
                                 if (choice == 'y')
                                 {
                                     UserFunctions.AddCommentMethod(Userid);
-
                                 }
                             }
                             break;
                         case 3:
-                            bool isTaskassigned = UserFunctions.GetUserTaskMethod();
+                            bool isTaskassigned = UserFunctions.GetUserTaskMethod(Userid);
                             char userchoice = 'y';
                             while (isTaskassigned == true && userchoice == 'y')
                             {
@@ -83,7 +82,6 @@ namespace TaskManagement
                                 if (userchoice == 'y')
                                 {
                                     UserFunctions.AddCommentMethod(Userid);
-
                                 }
                             }
                             break;

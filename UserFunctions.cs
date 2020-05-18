@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskManagement.model;
 using TaskManagement.DB;
+using System.Xml;
 
 namespace TaskManagement
 {
@@ -35,7 +36,7 @@ namespace TaskManagement
             }
         }
 
-        public static bool GetUserTaskMethod()
+        public static bool GetUserTaskMethod(int Userid)
         {
             bool validid = false;
             int assignedToUserId = 0;
@@ -74,6 +75,34 @@ namespace TaskManagement
                                     "\nCommentID: " + comment.CommentId +
                                     "\nCommented By :" + authorName +
                                     "\n" + comment.Content);
+
+                            List<Reply> replies = new List<Reply>();
+                            replies = Reply.GetReplies(comment.CommentId);
+                            if (replies.Count == 0)
+                            {
+                                Console.WriteLine("There are no replies for this comment!");
+                            }
+                            else
+                            {
+                                foreach (Reply reply in replies)
+                                {
+                                    string authorname = UserDB.GetUserName(reply.AuthorId);
+                                    Console.WriteLine("\nReply:" +
+                                        "\nReplied by: " + authorname +
+                                        "\n" + reply.Content);
+                                }
+                            }
+                        }
+                        char replychoice = 'y';
+                        while (replychoice == 'y')
+                        {
+                            Console.WriteLine("Do you want to reply?(y/n)");
+                            replychoice = char.Parse(Console.ReadLine());
+                            if (replychoice == 'n')
+                            {
+                                break;
+                            }
+                            UserFunctions.AddReplyMethod(Userid);
                         }
                     }
                 }
@@ -109,14 +138,43 @@ namespace TaskManagement
                         foreach (Comment comment in comments)
                         {
                             string authorName = UserDB.GetUserName(comment.AuthorId);
-                            Console.WriteLine("Comment:" +
+                            Console.WriteLine("\nComment:" +
                                               "\nCommentID: " + comment.CommentId +
                                               "\nCommented By :" + authorName +
                                               "\n" + comment.Content);
+
+                            List<Reply> replies = new List<Reply>();
+                            replies = Reply.GetReplies(comment.CommentId);
+                            if (replies.Count == 0)
+                            {
+                                Console.WriteLine("There are no replies for this comment!");
+                            }
+                            else
+                            {
+                                foreach (Reply reply in replies)
+                                {
+                                    string authorname = UserDB.GetUserName(reply.AuthorId);
+                                    Console.WriteLine("\nReply:" +
+                                        "\nReplied by: " + authorname +
+                                        "\n" + reply.Content);
+                                }
+                            }
+                        }
+                        char replychoice = 'y';
+                        while (replychoice == 'y')
+                        {
+                            Console.WriteLine("Do you want to reply?(y/n)");
+                            replychoice = char.Parse(Console.ReadLine());
+                            if (replychoice == 'n')
+                            {
+                                break;
+                            }
+                            UserFunctions.AddReplyMethod(Userid);
                         }
                     }
                 }
-            }return true;
+            }
+            return true;
         }
 
         public static void AddCommentMethod(int Userid)
@@ -129,6 +187,18 @@ namespace TaskManagement
             comment.AuthorId = Userid;
             Console.WriteLine("Commented Successfully!");
             Comment.AddComment(comment);
+        }
+
+        public static void AddReplyMethod(int userid)
+        {
+            Reply reply = new Reply();
+            Console.WriteLine("Which comment do you want to reply?");
+            reply.ReplyToComment = long.Parse(Console.ReadLine());
+            Console.WriteLine("Enter your reply");
+            reply.Content = Console.ReadLine();
+            reply.AuthorId = userid;
+            Console.WriteLine("Replied Successfully");
+            Reply.AddReply(reply);
         }
     }
 }
