@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Linq;
-using TaskManagement.Model;
+using TaskManagement.Models;
 
 
 namespace TaskManagement.DB

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using TaskManagement.Model;
+using TaskManagement.Models;
 using System.Runtime.CompilerServices;
 using System.ComponentModel.Design;
 

@@ -4,7 +4,7 @@ using System.Reflection.Metadata;
 using System.Text;
 
 
-namespace TaskManagement.Model
+namespace TaskManagement.Models
 {
     public class User
     {

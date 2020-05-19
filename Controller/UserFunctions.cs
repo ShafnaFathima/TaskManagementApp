@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManagement.Model;
+using TaskManagement.Models;
 using TaskManagement.DB;
 using System.Xml;
 
@@ -16,7 +16,7 @@ namespace TaskManagement.Controller
 
             while (choice.Equals('y'))
             {
-                Model.Task task = new Model.Task();
+                Models.Task task = new Models.Task();
 
                 Console.WriteLine("enter task name");
                 task.TaskName = Console.ReadLine();
@@ -67,7 +67,7 @@ namespace TaskManagement.Controller
         public static void GetTask(int userId)
         {
 
-            List<Model.Task> MyTasklist = TaskDB.GetTaskAssignedTo(userId);
+            List<Models.Task> MyTasklist = TaskDB.GetTaskAssignedTo(userId);
 
             if (MyTasklist.Count == 0)
             {
@@ -75,7 +75,7 @@ namespace TaskManagement.Controller
             }
             else
             {
-                foreach (Model.Task task in MyTasklist)
+                foreach (Models.Task task in MyTasklist)
                 {
                     Console.WriteLine("\nTask Name:" + task.TaskName);
                     Console.WriteLine("Task ID:" + task.TaskId);

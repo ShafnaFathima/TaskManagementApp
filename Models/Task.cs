@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TaskManagement.Model
+namespace TaskManagement.Models
 {
     public class Task
     {

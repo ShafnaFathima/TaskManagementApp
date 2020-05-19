@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TaskManagement.Model;
+using TaskManagement.Models;
 using System.Linq;
 
 namespace TaskManagement.DB
