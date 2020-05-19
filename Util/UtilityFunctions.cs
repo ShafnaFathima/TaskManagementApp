@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace TaskManagement.Util
 {
-    public class UserFunctions
+    public class UtilityFunctions
     {
         public static void AddTask(int userId)
         {
@@ -54,13 +54,13 @@ namespace TaskManagement.Util
             }
 
             _authorId = myId;
-            UserFunctions.GetTask(assignedToUserId);
+            UtilityFunctions.GetTask(assignedToUserId);
         }
 
         public static void GetMyTask(int myId)
         {
             _authorId = myId;
-            UserFunctions.GetTask(myId);
+            UtilityFunctions.GetTask(myId);
         }
 
         // Prints tasks,comments and replies
@@ -123,7 +123,7 @@ namespace TaskManagement.Util
                                     break;
                                 }
 
-                                UserFunctions.AddReplyMethod(comment.CommentId);
+                                UtilityFunctions.AddReplyMethod(comment.CommentId);
                             }
                         }
                     }
@@ -139,7 +139,7 @@ namespace TaskManagement.Util
                             break;
                         }
 
-                        UserFunctions.AddCommentMethod(task.TaskId);
+                        UtilityFunctions.AddCommentMethod(task.TaskId);
                     }
                 }
             }

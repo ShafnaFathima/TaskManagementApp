@@ -60,13 +60,13 @@ namespace TaskManagement
                     switch (choice)
                     {
                         case 1:
-                            UserFunctions.AddTask(userId);
+                            UtilityFunctions.AddTask(userId);
                             break;
                         case 2:
-                            UserFunctions.GetMyTask(userId);
+                            UtilityFunctions.GetMyTask(userId);
                             break;
                         case 3:
-                            UserFunctions.GetUserTask(userId);
+                            UtilityFunctions.GetUserTask(userId);
                             break;
                         case 4:
                             login = false;
