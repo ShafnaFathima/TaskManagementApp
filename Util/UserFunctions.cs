@@ -6,7 +6,7 @@ using TaskManagement.Models;
 using TaskManagement.DB;
 using System.Xml;
 
-namespace TaskManagement.Controller
+namespace TaskManagement.Util
 {
     public class UserFunctions
     {
