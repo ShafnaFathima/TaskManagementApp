@@ -59,7 +59,6 @@ namespace TaskManagement
 
                     switch (choice)
                     {
-
                         case 1:
                             UserFunctions.AddTask(userId);
                             break;

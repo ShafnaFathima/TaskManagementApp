@@ -10,7 +10,6 @@ namespace TaskManagement.Model
         public string TaskName { get; set; }
         public int AssignedToUserID { get; set; }
         public int AssignedByUserID { get; set; }
- 
         public long TaskId
         {
             get
