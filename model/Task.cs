@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TaskManagement.model
+namespace TaskManagement.Model
 {
     public class Task
     {
+        private readonly long _TaskId = DateTime.Now.Ticks;
         public string TaskName { get; set; }
         public int AssignedToUserID { get; set; }
         public int AssignedByUserID { get; set; }
  
-        private long _taskId = DateTime.Now.Ticks;
         public long TaskId
         {
             get
             {
-                return _taskId;
+                return _TaskId;
             }
         }
     }

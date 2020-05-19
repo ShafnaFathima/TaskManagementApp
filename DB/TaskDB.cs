@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using TaskManagement.model;
+using TaskManagement.Model;
 using System.Runtime.CompilerServices;
 using System.ComponentModel.Design;
 
@@ -18,16 +18,10 @@ namespace TaskManagement.DB
             _tasks.Add(task);
         }
 
-        public static List<Task> GetTaskAssignedTo(int userid)
+        public static List<Task> GetTaskAssignedTo(int userId)
         {
-            var tasksassigned = _tasks.Where(t => t.AssignedToUserID == userid).ToList();
-            return tasksassigned;
-        }
-
-        public static List<Task> GetMyCurrentTasks(int myid)
-        {
-            var myCurrentTasks = _tasks.Where(t => t.AssignedToUserID == myid).ToList();
-            return myCurrentTasks;
+            var tasksAssigned = _tasks.Where(t => t.AssignedToUserID == userId).ToList();
+            return tasksAssigned;
         }
     }
 }

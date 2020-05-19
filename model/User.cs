@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Reflection.Metadata;
 using System.Text;
 
-namespace TaskManagement.model
+
+namespace TaskManagement.Model
 {
     public class User
     {
-        public string Username { get; set; }
+        public string UserName { get; set; }
         public int UserID { get; set; }
         public string Password { get; set; }
     }

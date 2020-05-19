@@ -3,36 +3,37 @@ using System.Collections.Generic;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Linq;
-using TaskManagement.model;
+using TaskManagement.Model;
+
 
 namespace TaskManagement.DB
 {
     public class UserDB
     {
-        private static List<User> _userlist = new List<User>();
-
+        private static List<User> _userList = new List<User>();
+  
         public static void AddUser(User user)
         {
-            _userlist.Add(user);
+            _userList.Add(user);
         }
        
-        public static User ValidLogin(int userid, string password)
+        public static User ValidLogin(int userId, string password)
         {
-            return _userlist.FirstOrDefault(user => user.UserID == userid && password.Equals(user.Password));
+            return _userList.FirstOrDefault(user => user.UserID == userId && password.Equals(user.Password));
         }
 
         public static bool IsValidID(int id)
         {
-            var isvalid = (from user in _userlist
+            var isValid = (from user in _userList
                            where user.UserID == id
                            select user).Any();
-            return isvalid;
+            return isValid;
         }
        
         public static string GetUserName(int id)
         {
-            var user = _userlist.First(user => user.UserID == id);
-            return user.Username;
+            var user = _userList.First(user => user.UserID == id);
+            return user.UserName;
         }
     }
 }

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using TaskManagement.model;
+using TaskManagement.Model;
 using TaskManagement.DB;
+using TaskManagement.Controller;
 using System.Dynamic;
 
 namespace TaskManagement
@@ -12,13 +13,13 @@ namespace TaskManagement
     {
         static void Main(string[] args)
         {
-            User newuser = new User() { Username = "USER1", UserID = 1, Password = "user1*" };
-            UserDB.AddUser(newuser);
-            User newuser1 = new User() { Username = "USER2", UserID = 2, Password = "user2*" };
-            UserDB.AddUser(newuser1);
-            User newuser2 = new User() { Username = "USER3", UserID = 3, Password = "user3*" };
-            UserDB.AddUser(newuser2);
-            //come here again after logout
+            User newUser = new User() { UserName = "USER1", UserID = 1, Password = "user1*" };
+            UserDB.AddUser(newUser);
+            User newUser1 = new User() { UserName = "USER2", UserID = 2, Password = "user2*" };
+            UserDB.AddUser(newUser1);
+            User newUser2 = new User() { UserName = "USER3", UserID = 3, Password = "user3*" };
+            UserDB.AddUser(newUser2);
+
             bool login = true;
             do
             {
@@ -41,8 +42,9 @@ namespace TaskManagement
                     }
                 }
 
-                int Userid = user.UserID;
-                int todo;
+                int userId = user.UserID;
+                int choice;
+
                 do
                 {
                     Console.WriteLine("\nEnter your option " +
@@ -51,39 +53,21 @@ namespace TaskManagement
                      "\n3:List tasks assigned to a user" +
                      "\n4:Logout and Login as new user" +
                      "\n5:Exit the application");
-                    todo = int.Parse(Console.ReadLine());
-                    /*creating a user menu*/
-                    switch (todo)
+                    choice = int.Parse(Console.ReadLine());
+
+                    // Creating a user menu
+
+                    switch (choice)
                     {
 
                         case 1:
-                            UserFunctions.AddTaskMethod(Userid);
+                            UserFunctions.AddTask(userId);
                             break;
                         case 2:
-                            bool isTaskAssigned = UserFunctions.MyCurrentTaskMethod(Userid);
-                            char choice = 'y';
-                            while (isTaskAssigned == true && choice == 'y')
-                            {
-                                Console.WriteLine("\nDo you want to add a comment?(y/n)");
-                                choice = char.Parse(Console.ReadLine());
-                                if (choice == 'y')
-                                {
-                                    UserFunctions.AddCommentMethod(Userid);
-                                }
-                            }
+                            UserFunctions.GetMyTask(userId);
                             break;
                         case 3:
-                            bool isTaskassigned = UserFunctions.GetUserTaskMethod(Userid);
-                            char userchoice = 'y';
-                            while (isTaskassigned == true && userchoice == 'y')
-                            {
-                                Console.WriteLine("\nDo you want to add a comment?(y/n)");
-                                userchoice = char.Parse(Console.ReadLine());
-                                if (userchoice == 'y')
-                                {
-                                    UserFunctions.AddCommentMethod(Userid);
-                                }
-                            }
+                            UserFunctions.GetUserTask(userId);
                             break;
                         case 4:
                             login = false;
@@ -92,7 +76,7 @@ namespace TaskManagement
                             Environment.Exit(0);
                             break;
                     }
-                } while (todo >= 1 && todo <= 3);
+                } while (choice >= 1 && choice <= 3);
             } while (login == false);
         }
     }
