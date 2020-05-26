@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using TaskManagement.Models;
+using System.Linq;
 using TaskManagement.DB;
-using System.Xml;
+using TaskManagement.Models;
 
 namespace TaskManagement.Util
 {
@@ -18,7 +16,7 @@ namespace TaskManagement.Util
             {
                 Models.Task task = new Models.Task();
 
-                Console.WriteLine("enter task name");
+                Console.WriteLine("\nenter task name");
                 task.TaskName = Console.ReadLine();
                 int id = 0;
                 bool validid = false;
@@ -96,6 +94,9 @@ namespace TaskManagement.Util
                             string authorName = UserDB.GetUserName(comment.AuthorId);
                             Console.WriteLine("\nComment:" + comment.Content +
                                               "\nCommented By :" + authorName);
+
+                            UtilityFunctions.LikeFunctions(comment.CommentId);
+
                             List<Comment> replyList = new List<Comment>();
                             replyList = CommentDB.GetReplies(comment.CommentId);
 
@@ -110,6 +111,8 @@ namespace TaskManagement.Util
                                     string authorname = UserDB.GetUserName(reply.AuthorId);
                                     Console.WriteLine("\nReply:" + reply.Content +
                                         "\nReplied by: " + authorname);
+
+                                    UtilityFunctions.LikeFunctions(reply.CommentId);
                                 }
                             }
 
@@ -167,6 +170,80 @@ namespace TaskManagement.Util
             reply.Content = Console.ReadLine();
             Console.WriteLine("\nReplied Successfully!");
             CommentDB.AddComment(reply);
+        }
+
+        public static void AddLike(long commentId)
+        {
+            Like like = new Like();
+            like.CommentId = commentId;
+            like.UserId = _authorId;
+            Console.WriteLine("\nChoose a reaction" +
+                                "\n1:Happy!" +
+                                "\n2:ThumbsUp!" +
+                                "\n3:Angry!" +
+                                "\n4:Sad!");
+            int choice = int.Parse(Console.ReadLine());
+            switch (choice)
+            {
+                case 1:
+                    like.Reaction = "Happy";
+                    break;
+                case 2:
+                    like.Reaction = "Thumbsup";
+                    break;
+                case 3:
+                    like.Reaction = "Angry";
+                    break;
+                case 4:
+                    like.Reaction = "Sad";
+                    break;
+            }
+            LikeDB.AddLike(like);
+            Console.WriteLine("Reacted Successfully!");
+        }
+
+        public static void LikeFunctions(long commentId)
+        {
+            //Display reactions
+            List<Like> likes = LikeDB.CountReactions(commentId);
+            
+            if (likes.Count == 0)
+            {
+                Console.WriteLine("\nThere are no reactions!");
+            }
+
+            var reactions = likes.GroupBy(like => like.Reaction);
+            foreach (var reactionType in reactions)
+            {
+                Console.WriteLine("{0} -: {1}", reactionType.Key, reactionType.Count());
+            }
+
+            Like like = LikeDB.HasUserLiked(commentId, _authorId);
+           
+            if (like == null)
+            {
+                // Add a reaction               
+                Console.WriteLine("\nDo you want to add a reaction?(y/n) ");
+                char likeChoice = char.Parse(Console.ReadLine());
+                
+                if (likeChoice == 'y')
+                {
+                    UtilityFunctions.AddLike(commentId);
+                }
+            }
+            else
+            {
+                // If already reacted they may remove the reaction
+                Console.WriteLine("Your Reaction: " + like.Reaction);
+                Console.WriteLine("Do you want to remove your reaction?(y/n)");
+                char removeChoice = char.Parse(Console.ReadLine());
+               
+                if (removeChoice == 'y')
+                {
+                    LikeDB.RemoveLike(like);
+                    Console.WriteLine("Removed your reaction!");
+                }
+            }
         }
     }
 }
